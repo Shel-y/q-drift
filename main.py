@@ -1,4 +1,5 @@
 import typer
+from typing import Annotated, Optional
 import random
 import math
 import json
@@ -6,7 +7,7 @@ from collections import Counter
 from rich.console import Console
 from rich.table import Table
 from rich.panel import Panel
-from typing import Annotated, Optional
+
 
 console = Console()
 app = typer.Typer(help="⚛️ Q-Drift CLI - Quantum-Inspired Structural Drift Analyzer")
