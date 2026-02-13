@@ -21,13 +21,14 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+        pip install -r requirements.txt
         
     - name: Run Analysis in CI Mode (Low Noise)
       run: |
-        # Usamos ruido muy bajo (0.05) para asegurar que pase la prueba (Exit Code 0)
-        python main.py analyze --simulations 500 --noise 0.05 --ci-mode --output test_results.json
+        python main.py analyze --simulations 500 --noise 0.05 --output test_results.json
         
     - name: Verify JSON Report
       run: |
         ls -l test_results.json
+        cat test_results.json
+
