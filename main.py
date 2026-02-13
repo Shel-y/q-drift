@@ -6,6 +6,7 @@ from collections import Counter
 from rich.console import Console
 from rich.table import Table
 from rich.panel import Panel
+from typing import Annotated, Optional
 
 console = Console()
 app = typer.Typer(help="⚛️ Q-Drift CLI - Quantum-Inspired Structural Drift Analyzer")
@@ -60,12 +61,12 @@ def render_distribution_chart(count_0: int, count_1: int) -> None:
 
 @app.command()
 def analyze(
-    simulations: int = typer.Option(1000, help="Number of simulated executions"),
-    noise: float = typer.Option(0.3, help="Instability level (0.0 - 1.0)"),
-    seed: int = typer.Option(None, help="Deterministic seed for reproducibility"),
-    output: str = typer.Option(None, help="Path to export results as JSON"),
-    graph: bool = typer.Option(default=True, help="Show ASCII distribution graph"),
-    ci_mode: bool = typer.Option(default=False, help="Disable visual output for CI environments")
+    simulations: Annotated[int, typer.Option(help="Number of simulated executions")] = 1000,
+    noise: Annotated[float, typer.Option(help="Instability level (0.0 - 1.0)")] = 0.3,
+    seed: Annotated[Optional[int], typer.Option(help="Deterministic seed")] = None,
+    output: Annotated[Optional[str], typer.Option(help="Path to export JSON")] = None,
+    graph: Annotated[bool, typer.Option(help="Show ASCII graph")] = True,
+    ci_mode: Annotated[bool, typer.Option(help="Disable visual output")] = False
 ):
     """Analyze structural fragility under probabilistic drift."""
 
