@@ -58,15 +58,14 @@ def render_distribution_chart(count_0: int, count_1: int) -> None:
         border_style="blue"
     ))
 
-
 @app.command()
 def analyze(
     simulations: int = typer.Option(1000, help="Number of simulated executions"),
     noise: float = typer.Option(0.3, help="Instability level (0.0 - 1.0)"),
     seed: int = typer.Option(None, help="Deterministic seed for reproducibility"),
     output: str = typer.Option(None, help="Path to export results as JSON"),
-    graph: bool = typer.Option(True, help="Show ASCII distribution graph"),
-    ci_mode: bool = typer.Option(False, help="Disable visual output for CI environments")
+    graph: bool = typer.Option(True, help="Show ASCII distribution graph", is_flag=True),
+    ci_mode: bool = typer.Option(False, help="Disable visual output for CI environments", is_flag=True)
 ):
     """Analyze structural fragility under probabilistic drift."""
 
@@ -101,6 +100,7 @@ def analyze(
         render_distribution_chart(state_0_count, state_1_count)
         console.print("")
 
+    
     if not ci_mode:
         table = Table(title="⚛️ Q-Drift Analysis Report")
         table.add_column("Metric", style="cyan")
@@ -111,6 +111,7 @@ def analyze(
         table.add_row("Drift Entropy Score", f"{round(entropy, 6)}")
         console.print(table)
 
+    
     status_msg = ""
     exit_code = 0
 
@@ -128,6 +129,7 @@ def analyze(
         if not ci_mode:
             console.print(f"[bold green]✅ {status_msg}[/bold green]")
 
+    
     if output:
         data = {
             "simulations": simulations,
@@ -143,7 +145,6 @@ def analyze(
             },
             "status": status_msg
         }
-        
         try:
             with open(output, "w") as f:
                 json.dump(data, f, indent=4)
@@ -155,6 +156,7 @@ def analyze(
 
     if exit_code != 0:
         raise typer.Exit(code=exit_code)
+
 
 
 @app.command()
