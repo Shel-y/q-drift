@@ -64,8 +64,8 @@ def analyze(
     noise: float = typer.Option(0.3, help="Instability level (0.0 - 1.0)"),
     seed: int = typer.Option(None, help="Deterministic seed for reproducibility"),
     output: str = typer.Option(None, help="Path to export results as JSON"),
-    graph: bool = typer.Option(True, help="Show ASCII distribution graph", is_flag=True),
-    ci_mode: bool = typer.Option(False, help="Disable visual output for CI environments", is_flag=True)
+    graph: bool = typer.Option(default=True, help="Show ASCII distribution graph"),
+    ci_mode: bool = typer.Option(default=False, help="Disable visual output for CI environments")
 ):
     """Analyze structural fragility under probabilistic drift."""
 
